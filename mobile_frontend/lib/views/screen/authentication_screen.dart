@@ -92,7 +92,7 @@ class _MyLoginState extends State<MyLogin> {
                               authChecking.isLoading = true;
                             });
                             //Sử dụng Provider.of để gọi hàm trong lớp ChangeNotifier và không cần dùng giá trị trong lớp
-                            await Provider.of<AuthenticateAction>(context,listen: false).loginUser();
+                            await Provider.of<AuthenticateAction>(context,listen: false).handleLogin();
                             if (_formKey.currentState!.validate()) {
                               if (authChecking.userCheckClass == false) {
                                 ScaffoldMessenger.of(context).showSnackBar(
@@ -100,7 +100,7 @@ class _MyLoginState extends State<MyLogin> {
                                       content: Text('Sai thông tin đăng nhập')),
                                 );
                               } else {
-                                if (authChecking.myAccount.isAdmin!) {
+                                if (authChecking.isAdmin) {
                                   authChecking.userController.clear();
                                   authChecking.passwordController.clear();
                                   currentPageIndex=0;

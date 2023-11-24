@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:example_map/view_model/add_task_viewModel.dart';
+import 'package:example_map/view_model/task_viewModel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -9,10 +9,11 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 import '../../data/api_services.dart';
+import '../../data/fixed_data_display.dart';
 final _formKey = GlobalKey<FormState>();
 
 class MyHTestPage extends StatefulWidget {
-  final PostDataProvider addProviderClass;
+  final TaskViewModal addProviderClass;
   MyHTestPage({super.key,required this.addProviderClass});
 
   @override
@@ -22,7 +23,8 @@ class MyHTestPage extends StatefulWidget {
 class MyHTestPageState extends State<MyHTestPage>{
   @override
   Widget build(BuildContext context) {
-    PostDataProvider tempProvider = widget.addProviderClass;
+    print("from add task");
+    TaskViewModal tempProvider = widget.addProviderClass;
     var tWidth = MediaQuery.of(context).size.width * 0.3;
     return Scaffold(
       appBar: AppBar(
@@ -62,7 +64,7 @@ class MyHTestPageState extends State<MyHTestPage>{
                     Container(
                       padding: EdgeInsets.only(left: 10),
                       width: tWidth,
-                      child: Text(tempProvider.titleTextFiled[index],
+                      child: Text(titleTextFiled[index],
                         style: TextStyle(fontSize: 15),),
                     ),
                     SizedBox(
@@ -73,13 +75,13 @@ class MyHTestPageState extends State<MyHTestPage>{
                         // Allow unlimited lines
                         keyboardType: TextInputType.multiline,
                         textInputAction: TextInputAction.newline,
-                        onChanged: (text) => setState(() => myText),
-                        controller: tempProvider.myListController[index],
+                        onChanged: (text) => setState(() => emptyText),
+                        controller: tempProvider.listTextController[index],
                         obscureText: false,
                         expands: false,
                         decoration: InputDecoration(
-                          hintText: tempProvider.InputFieldAddService[index],
-                          errorText: tempProvider.myErrorChecking == 0 ? null : tempProvider.getErrorText(tempProvider.myListController[index]?.value.text, index),
+                          hintText: InputFieldAddService[index],
+                          errorText: tempProvider.errorCode == 0 ? null : tempProvider.getErrorText(tempProvider.listTextController[index]?.value.text, index),
                         ),
                       ),
                     ),
@@ -90,7 +92,7 @@ class MyHTestPageState extends State<MyHTestPage>{
           );
         },
         separatorBuilder: (BuildContext context, int index) => Divider(),
-        itemCount: tempProvider.InputFieldAddService.length,
+        itemCount: InputFieldAddService.length,
       ),
     );
   }

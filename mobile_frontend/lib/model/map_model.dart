@@ -65,6 +65,5 @@ class Directions {
   }
 }
 
-MapViewModal myMap = MapViewModal();
 GoogleMapController? mapController;
 bool isLoading = true;

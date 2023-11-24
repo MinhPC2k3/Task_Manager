@@ -1,6 +1,9 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
+
+import '../data/api_services.dart';
 
 
 class TaskObject {
@@ -61,9 +64,18 @@ class TaskObject {
 }
 
 
-List<TaskObject> myTask =[];
+// List<TaskObject> myTask =[];
 
+class TaskRepository{
 
-List<String> myDetailTitle =['Điểm lấy hàng','Tiền hàng','Phí ship','Thời gian'];
-List<String> taskIcon =["Đơn mới","Chờ lấy hàng"];
-List<IconData> myViewIcon =[Icons.add_box_outlined , Icons.alarm_sharp];
+  List<TaskObject> listTasks =[];
+  Future<List<TaskObject>> getListTask() async{
+    listTasks = await fetchTask(http.Client());
+    return listTasks;
+  }
+
+  Future<int> postTaskRequest(List<String> taskProperties) async{
+    int postStatus = await postTask(taskProperties);
+    return postStatus;
+  }
+}

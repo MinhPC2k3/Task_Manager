@@ -1,19 +1,10 @@
 package main
 
 import (
-	// "net/http"
-	// "strconv"
-	// "time"
-	// "fmt"
-	// "math/rand"
-	// "mobile_backend/model"
 	"mobile_backend/service/auth"
 	"mobile_backend/service/mail"
 	"mobile_backend/service/mobile"
 	"mobile_backend/storage"
-
-	// "mobile_backend/service/mail"
-
 	"github.com/gin-gonic/gin"
 )
 

@@ -5,26 +5,28 @@ import 'package:flutter/material.dart';
 
 //Tạo class ChangeNotifier
 class AuthenticateAction extends ChangeNotifier{
+
+  bool showPassword = true;
   var userCheckClass = false;
   bool isLoading = false;
+  bool isAdmin = false;
   TextEditingController userController = TextEditingController();
-  bool showPassword = true;
   TextEditingController passwordController = TextEditingController();
-  AccountModel myAccount = AccountModel();
-  Future<void>loginUser() async{
-    myAccount.userName=userController.text.toString();
-    myAccount.userPassword = passwordController.text.toString();
-    dynamic response = await postAuthen(myAccount.toJson());
-    print(myAccount.toString());
-    print("this is response ${myAccount.isAdmin}");
-    if(response == "Success"){
-      userCheckClass=true;
-      print("setting new value");
-    }
-    //Gọi hàm notifyListeners để thông báo cho các widget có sự thay đổi cần rebuild
-    isLoading = false;
-    notifyListeners();
+  AccountRepository accountRepository = AccountRepository();
+
+  Future<void> handleLogin() async{
+    accountRepository.setAccount(userController.text.toString(), passwordController.text.toString());
+    String loginStatus = await accountRepository.loginUser();
+      if(loginStatus == "Success"){
+        isAdmin= accountRepository.myAccount.isAdmin!;
+        userCheckClass=true;
+        print("setting new value");
+      }
+      //Gọi hàm notifyListeners để thông báo cho các widget có sự thay đổi cần rebuild
+      isLoading = false;
+      notifyListeners();
   }
+
   void passwordVisionable(){
     showPassword=!showPassword;
     notifyListeners();

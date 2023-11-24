@@ -6,7 +6,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../model/task_model.dart';
 import '../model/map_model.dart';
 import 'package:http/http.dart' as http;
-import '../view_model/add_task_viewModel.dart';
+import '../view_model/task_viewModel.dart';
 import '../views/screen/add_task_screen.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
