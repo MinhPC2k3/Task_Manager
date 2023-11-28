@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 class AuthenticateAction extends ChangeNotifier{
 
   bool showPassword = true;
-  var userCheckClass = false;
+  var userCheck = false;
   bool isLoading = false;
   bool isAdmin = false;
   TextEditingController userController = TextEditingController();
@@ -19,7 +19,7 @@ class AuthenticateAction extends ChangeNotifier{
     String loginStatus = await accountRepository.loginUser();
       if(loginStatus == "Success"){
         isAdmin= accountRepository.myAccount.isAdmin!;
-        userCheckClass=true;
+        userCheck=true;
         print("setting new value");
       }
       //Gọi hàm notifyListeners để thông báo cho các widget có sự thay đổi cần rebuild

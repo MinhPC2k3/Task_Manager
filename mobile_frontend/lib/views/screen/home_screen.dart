@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
     final List<Widget> widgetOptions = [
       ChangeNotifierProvider(
         create: (context) => TaskViewModal(),
-        child: MyHomePageScreen(
+        child: HomePageScreen(
           myCheckAdmin: checkAdmin,
         ),
       ),
@@ -78,16 +78,16 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class MyHomePageScreen extends StatefulWidget {
+class HomePageScreen extends StatefulWidget {
   final bool myCheckAdmin;
 
-  const MyHomePageScreen({super.key, required this.myCheckAdmin});
+  const HomePageScreen({super.key, required this.myCheckAdmin});
 
   @override
-  State<MyHomePageScreen> createState() => _MyHomePageScreenState();
+  State<HomePageScreen> createState() => _HomePageScreenState();
 }
 
-class _MyHomePageScreenState extends State<MyHomePageScreen> {
+class _HomePageScreenState extends State<HomePageScreen> {
   @override
   Widget build(BuildContext context) {
     bool myChecking = widget.myCheckAdmin;
@@ -123,7 +123,7 @@ class _MyHomePageScreenState extends State<MyHomePageScreen> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => MyHTestPage(
+                                        builder: (context) => AddTaskScreen(
                                           addProviderClass: listTask,
                                         ),
                                       ));
@@ -155,7 +155,7 @@ class _MyHomePageScreenState extends State<MyHomePageScreen> {
                                           builder: (context) =>
                                               ChangeNotifierProvider(
                                                   create: (context) => MapViewModal(),
-                                                  child: MyMap(listTasks: snapshot.data!,)
+                                                  child: MapScreen(listTasks: snapshot.data!,)
                                               )
                                       )
                                   );
@@ -216,7 +216,7 @@ class _MyHomePageScreenState extends State<MyHomePageScreen> {
                               iconName: taskIcon,
                               detailTitle: myDetailTitle,
                               myIcon: myViewIcon,
-                              myTaskList: snapshot.data!,
+                              listTask: snapshot.data!,
                               enableDialog: true,
                               dialogAction: () {
                                 Navigator.of(context).pop();
@@ -225,7 +225,7 @@ class _MyHomePageScreenState extends State<MyHomePageScreen> {
                                     MaterialPageRoute(
                                         builder: (context) => ChangeNotifierProvider(
                                             create: (context) => MapViewModal(),
-                                            child: MyMap(listTasks: snapshot.data!,)
+                                            child: MapScreen(listTasks: snapshot.data!,)
                                         )));
                               })),
                     ),

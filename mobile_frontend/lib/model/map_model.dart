@@ -65,5 +65,3 @@ class Directions {
   }
 }
 
-GoogleMapController? mapController;
-bool isLoading = true;

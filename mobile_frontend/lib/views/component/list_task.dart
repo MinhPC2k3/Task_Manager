@@ -5,7 +5,7 @@ class ListCard extends StatelessWidget {
   final List<String> detailTitle;
   final List<String>? iconName;
   final List<IconData>? myIcon;
-  final List<TaskObject> myTaskList;
+  final List<TaskObject> listTask;
   final Color? cardTitleColor;
   final double? cardTextSize;
   final VoidCallback  dialogAction;
@@ -16,7 +16,7 @@ class ListCard extends StatelessWidget {
         required this.enableDialog,
         required this.detailTitle,
         required this.dialogAction,
-        required this.myTaskList,
+        required this.listTask,
         this.iconName,
         this.myIcon,
         this.cardTextSize,
@@ -26,7 +26,7 @@ class ListCard extends StatelessWidget {
 
   Widget contentText(double? textSize, Color? textColor, int index,BuildContext context) {
     List<String> myValue = [];
-    var value = myTaskList[index];
+    var value = listTask[index];
     Map<String, String> taskValue = value.toJson();
     List<String> temp = [];
     taskValue.forEach((key, value) {
@@ -87,13 +87,13 @@ class ListCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<String> taskTitle =[];
-    for(var value in myTaskList) {
+    for(var value in listTask) {
       taskTitle.add(value.taskTitle);
     }
 
     return ListView.builder(
         shrinkWrap: true,
-        itemCount: myTaskList.length,
+        itemCount: listTask.length,
         padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
         itemBuilder: (context, index) {
           return Column(
@@ -142,8 +142,8 @@ class ListCard extends StatelessWidget {
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            if(myIcon!= null && iconName!=null) customIcon(myTaskList[index].taskStatus, myIcon!, iconName!),
-                            Text(myTaskList[index].taskStatus,
+                            if(myIcon!= null && iconName!=null) customIcon(listTask[index].taskStatus, myIcon!, iconName!),
+                            Text(listTask[index].taskStatus,
                                 style: TextStyle(color: Colors.deepOrangeAccent,
                                     fontSize: cardTextSize ?? 15)),
                           ],
@@ -157,7 +157,7 @@ class ListCard extends StatelessWidget {
                           children: [
                             Container(
                               width: MediaQuery.of(context).size.width*0.3,
-                              child: Text(myTaskList[index].taskCode,
+                              child: Text(listTask[index].taskCode,
                                   style: TextStyle(color: cardTitleColor ??
                                       Colors.deepOrangeAccent, fontSize: 15)),
                             ),
@@ -165,7 +165,7 @@ class ListCard extends StatelessWidget {
                                 child: SizedBox(
                                   child: Align(
                                     alignment: Alignment.centerLeft,
-                                    child: Text(': ${myTaskList[index].taskTitle}',
+                                    child: Text(': ${listTask[index].taskTitle}',
                                         style: TextStyle(fontSize: cardTextSize ?? 15,
                                             color: Colors.black)),
                                   ),

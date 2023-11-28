@@ -4,6 +4,7 @@ import 'package:example_map/data/api_services.dart';
 import 'package:flutter/material.dart';
 
 class ChangePasswordProvider extends ChangeNotifier{
+
   TextEditingController currentPassword =  TextEditingController();
   TextEditingController newPassword = TextEditingController();
   TextEditingController confirmPassword = TextEditingController();
@@ -13,6 +14,7 @@ class ChangePasswordProvider extends ChangeNotifier{
   bool checkConfirmPwd = true;
   late String message;
   late String statusChange;
+
   Future<String> changePassword() async{
     if(newPassword.text != confirmPassword.text){
       print("Wrong confirm password");

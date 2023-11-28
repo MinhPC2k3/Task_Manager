@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../view_model/authenticate_viewModal.dart';
 
-class MyLogin extends StatefulWidget {
-  const MyLogin({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  State<MyLogin> createState() => _MyLoginState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _MyLoginState extends State<MyLogin> {
+class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -94,7 +94,7 @@ class _MyLoginState extends State<MyLogin> {
                             //Sử dụng Provider.of để gọi hàm trong lớp ChangeNotifier và không cần dùng giá trị trong lớp
                             await Provider.of<AuthenticateAction>(context,listen: false).handleLogin();
                             if (_formKey.currentState!.validate()) {
-                              if (authChecking.userCheckClass == false) {
+                              if (authChecking.userCheck == false) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                       content: Text('Sai thông tin đăng nhập')),
@@ -108,7 +108,7 @@ class _MyLoginState extends State<MyLogin> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => HomePage(
-                                          isAdmin: authChecking.userCheckClass,
+                                          isAdmin: authChecking.userCheck,
                                         ),
                                       ));
                                 } else {

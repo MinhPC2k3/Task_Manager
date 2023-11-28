@@ -24,14 +24,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
           ),
           ElevatedButton(
             onPressed: () => {
-              Navigator.pushReplacementNamed(context, "/logout"
-                  // MaterialPageRoute(
-                  //   builder: (context) => ChangeNotifierProvider(
-                  //     create: (context) => AuthenticateAction(),
-                  //     child: const MyLogin(),
-                  //   ),
-                  // )
-                  )
+              Navigator.pushReplacementNamed(context, "/logout")
             },
             child: Text("Đăng xuất"),
           ),

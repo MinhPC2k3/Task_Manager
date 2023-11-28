@@ -6,10 +6,12 @@ class AccountModel{
   String? userName;
   String? userPassword;
   bool? isAdmin;
+
   AccountModel(
       { this.userName,
          this.userPassword,
         this.isAdmin});
+
   //Hàm giúp chuyển class sang dạng JSON để liên kết với api
   Map<String,String> toJson (){
     Map<String,String> objectField =  <String,String>{};
@@ -27,10 +29,12 @@ class AccountModel{
 
 class AccountRepository{
   AccountModel myAccount = AccountModel();
+
   void setAccount(String userName,String userPassword){
     myAccount.userName = userName;
     myAccount.userPassword = userPassword;
   }
+
   Future<String> loginUser() async{
     dynamic response = await postAuthen(myAccount.toJson());
     print(myAccount.toString());

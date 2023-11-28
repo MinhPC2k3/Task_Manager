@@ -5,20 +5,16 @@ import '../../model/map_model.dart';
 import '../../model/task_model.dart';
 import '../../view_model/map_viewModel.dart';
 
-class MyMap extends StatefulWidget{
-  List<TaskObject> listTasks;
-  MyMap({super.key,required this.listTasks});
+class MapScreen extends StatefulWidget{
+  final List<TaskObject> listTasks;
+  const MapScreen({super.key,required this.listTasks});
 
   @override
-  State<MyMap> createState() => _MyMapState();
+  State<MapScreen> createState() => _MapScreenState();
 }
-class _MyMapState extends State<MyMap> {
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   myMap.getLocation(myMap.mapView, context);
-  // }
+class _MapScreenState extends State<MapScreen> {
+
   @override
 
   Widget build(BuildContext context){
@@ -55,33 +51,6 @@ class _MyMapState extends State<MyMap> {
                             },
                             child: const Text('Vị trí' , style: TextStyle(color: Colors.blue , fontSize: 15),)
                         ),
-                        // TextButton(
-                        //     onPressed: (){
-                        //       myMap.routeButton();
-                        //       for(var value in myMap.mapView!.listMarker!){
-                        //         print('This is position ${value.position}');
-                        //       }
-                        //       sortPosition(myTask);
-                        //       for(var value in myTask){
-                        //         print("Sorted object ${value.destinationName}");
-                        //       }
-                        //     },
-                        //     child: const Text('Route' , style: TextStyle(color: Colors.blue , fontSize: 15),)
-                        // ),
-                        // TextButton(
-                        //     onPressed: (){
-                        //       setState(() {
-                        //         myMap.setIsAddMarker();
-                        //       });
-                        //     },
-                        //     child: myMap.mapView.isAddMultiMarker == 0 ? const Text('Add Marker' , style: TextStyle(color: Colors.blue , fontSize: 15),) : const Text('Done' , style: TextStyle(color: Colors.red , fontSize: 15),)
-                        // ),
-                        // TextButton(
-                        //     onPressed: (){
-                        //       myMap.deleteButton();
-                        //     },
-                        //     child:const Text('Delete' , style: TextStyle(color: Colors.red , fontSize: 15),)
-                        // )
                       ],
                     ),
                     body: mapViewModal.mapView.currentLocation == null ? const Center(child:CircularProgressIndicator()) :  Stack(
@@ -130,14 +99,7 @@ class _MyMapState extends State<MyMap> {
                             ),
                             for(int i=0;i<mapViewModal.mapView.listPolyline!.length;i++) mapViewModal.getPolyline(mapViewModal.mapView.listPolyline, i),
 
-
                           },
-                          // onLongPress:(latlang){
-                          //   myMap.mapView.isAddMultiMarker == 0 ? myMap.addMarker(myMap.mapView,latlang) : myMap.addMultiMarker(myMap.mapView,latlang);
-                          //   for(int i=0;i<myMap.mapView.listMarker!.length;i++){
-                          //     mapController!.showMarkerInfoWindow(myMap.mapView.listMarker![i].markerId);
-                          //   }
-                          // },
                         ),
                         if (mapViewModal.mapView.info != null)
                           Positioned(

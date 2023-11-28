@@ -12,15 +12,15 @@ import '../../data/api_services.dart';
 import '../../data/fixed_data_display.dart';
 final _formKey = GlobalKey<FormState>();
 
-class MyHTestPage extends StatefulWidget {
+class AddTaskScreen extends StatefulWidget {
   final TaskViewModal addProviderClass;
-  MyHTestPage({super.key,required this.addProviderClass});
+  const AddTaskScreen({super.key,required this.addProviderClass});
 
   @override
-  State<MyHTestPage> createState() => MyHTestPageState();
+  State<AddTaskScreen> createState() => AddTaskScreenState();
 }
 
-class MyHTestPageState extends State<MyHTestPage>{
+class AddTaskScreenState extends State<AddTaskScreen>{
   @override
   Widget build(BuildContext context) {
     print("from add task");
