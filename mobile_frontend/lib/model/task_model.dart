@@ -43,9 +43,9 @@ class TaskObject {
     return objectField;
   }
   factory TaskObject.fromJson(Map<String, dynamic> json) {
-    final myDateTime = json['DeathLine'].toString();
-    final myLat = json['LatValue'];
-    final myLng = json['LngValue'];
+    final TaskDateTime = json['DeathLine'].toString();
+    final taskLat = json['LatValue'];
+    final taskLng = json['LngValue'];
     print("hello ${json['DeathLine']} ${json['DeathLine'].runtimeType}");
     return TaskObject(
         taskStatus : json['Status'] as String,
@@ -58,7 +58,7 @@ class TaskObject {
         expireTime :DateTime.parse(json['DeathLine'].toString()),
         //json['DeathLine'] as DateTime
 
-        destinationPosition : LatLng(myLat,myLng),
+        destinationPosition : LatLng(taskLat,taskLng),
     );
   }
 }

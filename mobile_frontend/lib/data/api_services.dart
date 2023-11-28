@@ -27,8 +27,8 @@ Future<Directions?> getDirection(LatLng origin, LatLng destination) async {
   return null;
 }
 
-Future<TaskObject> fetchData(http.Client myClient, String myUrl) async {
-  final response = await myClient.get(Uri.parse(myUrl));
+Future<TaskObject> fetchData(http.Client client, String url) async {
+  final response = await client.get(Uri.parse(url));
   if (response.statusCode == 200) {
     return TaskObject.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
   } else {
@@ -40,14 +40,14 @@ Future<List<TaskObject>> fetchTask(http.Client client) async {
   String? jwtToken = await storage.read(key: 'jwt');
   final user = jsonDecode(jwtToken!);
   print("got token jwt $jwtToken");
-  Map<String, String> myHeaderGet = {};
-  myHeaderGet.addEntries([
+  Map<String, String> headerGet = {};
+  headerGet.addEntries([
     const MapEntry('Content-Type', 'application/json'),
     MapEntry('Authorization', user["user_name"])
   ]);
-  // final response = await client.get(Uri.parse(taskObjectPath),headers: myHeaderGet);
+  // final response = await client.get(Uri.parse(taskObjectPath),headers: headerGet);
   final response =
-      await http.get(Uri.parse(taskObjectPath), headers: myHeaderGet);
+      await http.get(Uri.parse(taskObjectPath), headers: headerGet);
   return compute(parseTasks, response.body);
 }
 
@@ -59,28 +59,28 @@ List<TaskObject> parseTasks(String responseBody) {
   return parsed.map<TaskObject>((json) => TaskObject.fromJson(json)).toList();
 }
 
-Future<int> postTask(List<String> myList) async {
-  Map<String, dynamic> myPostData = {};
+Future<int> postTask(List<String> listTaskContent) async {
+  Map<String, dynamic> postData = {};
   String? jwtToken = await storage.read(key: 'jwt');
   final user = jsonDecode(jwtToken!);
-  Map<String, String> myHeaderPost = {};
-  myHeaderPost.addEntries([
+  Map<String, String> headerPost = {};
+  headerPost.addEntries([
     const MapEntry('Content-Type', 'application/json'),
     MapEntry('Authorization', user["user_name"])
   ]);
-  myPostData.addEntries([
-    MapEntry('Status', myList[0]),
-    MapEntry('Target', myList[1]),
-    MapEntry('Destination', myList[2]),
-    MapEntry('ProductValue', int.parse(myList[3])),
-    MapEntry('ShipCost', int.parse(myList[4])),
-    MapEntry('DeathLine', myList[5] + ":00"),
+  postData.addEntries([
+    MapEntry('Status', listTaskContent[0]),
+    MapEntry('Target', listTaskContent[1]),
+    MapEntry('Destination', listTaskContent[2]),
+    MapEntry('ProductValue', int.parse(listTaskContent[3])),
+    MapEntry('ShipCost', int.parse(listTaskContent[4])),
+    MapEntry('DeathLine', listTaskContent[5] + ":00"),
   ]);
 
   final response = await http.post(
     Uri.parse(taskPostPath),
-    headers: myHeaderPost,
-    body: jsonEncode(myPostData),
+    headers: headerPost,
+    body: jsonEncode(postData),
   );
   return response.statusCode;
 }
@@ -106,12 +106,12 @@ Future<String> postAuthen(Map<String, dynamic> authenData) async {
 Future<String> postChangePwd (Map<String,String> newPwdData) async{
   String? jwtToken = await storage.read(key: 'jwt');
   final user = jsonDecode(jwtToken!);
-  Map<String, String> myHeaderPost = {};
-  myHeaderPost.addEntries([
+  Map<String, String> headerPost = {};
+  headerPost.addEntries([
     const MapEntry('Content-Type', 'application/json'),
     MapEntry('Authorization', user["user_name"])
   ]);
-  final response = await http.post(Uri.parse(pwdChangePath),headers: myHeaderPost,body: jsonEncode(newPwdData));
+  final response = await http.post(Uri.parse(pwdChangePath),headers: headerPost,body: jsonEncode(newPwdData));
   final responseInfor = response.body;
   return responseInfor;
 }

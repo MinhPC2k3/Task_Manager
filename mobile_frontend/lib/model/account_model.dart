@@ -28,17 +28,17 @@ class AccountModel{
 }
 
 class AccountRepository{
-  AccountModel myAccount = AccountModel();
+  AccountModel account = AccountModel();
 
   void setAccount(String userName,String userPassword){
-    myAccount.userName = userName;
-    myAccount.userPassword = userPassword;
+    account.userName = userName;
+    account.userPassword = userPassword;
   }
 
   Future<String> loginUser() async{
-    dynamic response = await postAuthen(myAccount.toJson());
-    print(myAccount.toString());
-    print("this is response ${myAccount.isAdmin}");
+    dynamic response = await postAuthen(account.toJson());
+    print(account.toString());
+    print("this is response ${account.isAdmin}");
     if(response == "Success"){
       print("setting new value");
       return "Success";

@@ -37,6 +37,6 @@ import 'package:flutter/material.dart';
     'Phí ship',
     'Kết thúc',
   ];
-List<String> myDetailTitle =['Điểm lấy hàng','Tiền hàng','Phí ship','Thời gian'];
+List<String> detailTitle =['Điểm lấy hàng','Tiền hàng','Phí ship','Thời gian'];
 List<String> taskIcon =["Đơn mới","Chờ lấy hàng"];
-List<IconData> myViewIcon =[Icons.add_box_outlined , Icons.alarm_sharp];
+List<IconData> viewIcon =[Icons.add_box_outlined , Icons.alarm_sharp];

@@ -18,7 +18,7 @@ class AuthenticateAction extends ChangeNotifier{
     accountRepository.setAccount(userController.text.toString(), passwordController.text.toString());
     String loginStatus = await accountRepository.loginUser();
       if(loginStatus == "Success"){
-        isAdmin= accountRepository.myAccount.isAdmin!;
+        isAdmin= accountRepository.account.isAdmin!;
         userCheck=true;
         print("setting new value");
       }

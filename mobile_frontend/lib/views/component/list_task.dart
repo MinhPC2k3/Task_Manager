@@ -4,7 +4,7 @@ import '../../model/task_model.dart';
 class ListCard extends StatelessWidget {
   final List<String> detailTitle;
   final List<String>? iconName;
-  final List<IconData>? myIcon;
+  final List<IconData>? cardIcon;
   final List<TaskObject> listTask;
   final Color? cardTitleColor;
   final double? cardTextSize;
@@ -18,14 +18,14 @@ class ListCard extends StatelessWidget {
         required this.dialogAction,
         required this.listTask,
         this.iconName,
-        this.myIcon,
+        this.cardIcon,
         this.cardTextSize,
         this.cardTitleColor,
 
       });
 
   Widget contentText(double? textSize, Color? textColor, int index,BuildContext context) {
-    List<String> myValue = [];
+    List<String> textValue = [];
     var value = listTask[index];
     Map<String, String> taskValue = value.toJson();
     List<String> temp = [];
@@ -33,9 +33,9 @@ class ListCard extends StatelessWidget {
       temp.add(value);
     });
     for (var element in temp) {
-      myValue.add(element);
+      textValue.add(element);
     }
-    var myReturn = Column(
+    var returnValue = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         for(var value in temp)
@@ -73,7 +73,7 @@ class ListCard extends StatelessWidget {
           // ),
       ],
     );
-    return myReturn;
+    return returnValue;
   }
 
   Widget customIcon(String expectIcon, List<IconData> iconINeed, List<String> listIconName) {
@@ -142,7 +142,7 @@ class ListCard extends StatelessWidget {
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            if(myIcon!= null && iconName!=null) customIcon(listTask[index].taskStatus, myIcon!, iconName!),
+                            if(cardIcon!= null && iconName!=null) customIcon(listTask[index].taskStatus, cardIcon!, iconName!),
                             Text(listTask[index].taskStatus,
                                 style: TextStyle(color: Colors.deepOrangeAccent,
                                     fontSize: cardTextSize ?? 15)),

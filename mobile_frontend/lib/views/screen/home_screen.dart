@@ -4,7 +4,6 @@ import 'package:example_map/views/screen/static_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-
 import '../../data/fixed_data_display.dart';
 import '../../model/task_model.dart';
 import '../../view_model/map_viewModel.dart';
@@ -27,12 +26,12 @@ var currentPageIndex = 0;
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    var checkAdmin = widget.isAdmin;
+    var checkAdminValue = widget.isAdmin;
     final List<Widget> widgetOptions = [
       ChangeNotifierProvider(
         create: (context) => TaskViewModal(),
         child: HomePageScreen(
-          myCheckAdmin: checkAdmin,
+          checkAdmin: checkAdminValue,
         ),
       ),
       const StaticScreen(),
@@ -79,9 +78,9 @@ class _HomePageState extends State<HomePage> {
 }
 
 class HomePageScreen extends StatefulWidget {
-  final bool myCheckAdmin;
+  final bool checkAdmin;
 
-  const HomePageScreen({super.key, required this.myCheckAdmin});
+  const HomePageScreen({super.key, required this.checkAdmin});
 
   @override
   State<HomePageScreen> createState() => _HomePageScreenState();
@@ -90,7 +89,7 @@ class HomePageScreen extends StatefulWidget {
 class _HomePageScreenState extends State<HomePageScreen> {
   @override
   Widget build(BuildContext context) {
-    bool myChecking = widget.myCheckAdmin;
+    bool checkRole = widget.checkAdmin;
     return Consumer<TaskViewModal>(builder: (context, listTask, child) {
       print("From home");
       return FutureBuilder<List<TaskObject>>(
@@ -103,16 +102,12 @@ class _HomePageScreenState extends State<HomePageScreen> {
                     Text('An error has occurred! ${snapshot.error.toString()}'),
               );
             } else if (snapshot.hasData) {
-              //ListenableBuilder(
-              //                 listenable: myProvider,
-              //                 builder:
-
               return Scaffold(
                 appBar: AppBar(
                   backgroundColor: Colors.deepOrangeAccent,
-                  title: myChecking ? Text("Admin") : Text("Người dùng"),
+                  title: checkRole ? Text("Admin") : Text("Người dùng"),
                   actions: [
-                    myChecking
+                    checkRole
                         ? Container(
                             margin: EdgeInsets.only(right: 15),
                             child: ElevatedButton(
@@ -214,8 +209,8 @@ class _HomePageScreenState extends State<HomePageScreen> {
                           // child: taskList(),
                           child: ListCard(
                               iconName: taskIcon,
-                              detailTitle: myDetailTitle,
-                              myIcon: myViewIcon,
+                              detailTitle: detailTitle,
+                              cardIcon: viewIcon,
                               listTask: snapshot.data!,
                               enableDialog: true,
                               dialogAction: () {
@@ -243,22 +238,3 @@ class _HomePageScreenState extends State<HomePageScreen> {
     });
   }
 }
-// if (dialogContent != null) {
-// showDialog(
-// context: context,
-// builder: (BuildContext context) =>
-// AlertDialog(
-// title: Text(myTaskList[index].taskTitle),
-// content: SingleChildScrollView(
-// child: ListBody(
-// children: <Widget>[
-// Text(dialogDetail![0]),
-// ],
-// ),
-// ),
-// actions: <Widget>[
-// for (var value in dialogButton!) value,
-// ],
-// ),
-// );
-// }
