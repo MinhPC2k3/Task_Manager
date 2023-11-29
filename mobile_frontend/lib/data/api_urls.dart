@@ -7,5 +7,6 @@ String taskObjectPath = "http://172.20.10.2:8080/get";
 String taskPostPath = "http://172.20.10.2:8080/post";
 String userAuthen = "http://172.20.10.2:8080/post/authenticate";
 String pwdChangePath ="http://172.20.10.2:8080/post/ChangePassword";
+String logOutUserPath ="http://172.20.10.2:8080/get/logout";
 //192.168.1.7
 

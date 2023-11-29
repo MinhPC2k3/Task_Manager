@@ -61,7 +61,7 @@ func PostTask (ctx *gin.Context) {
 func LogoutUser(ctx *gin.Context) {
 	userJwtToken := ctx.GetHeader("Authorization")
 	if userJwtToken == "" {
-		ctx.AbortWithStatus(http.StatusUnauthorized)
+		ctx.JSON(http.StatusBadRequest, "Cannot parse jwt")
 		return
 	}
 	splitToken := strings.Split(userJwtToken, "Bearer ")

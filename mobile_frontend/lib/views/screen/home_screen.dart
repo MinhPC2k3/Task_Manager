@@ -1,4 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:example_map/view_model/authenticate_viewModal.dart';
+import 'package:example_map/view_model/picture_viewModal.dart';
 import 'package:example_map/view_model/task_viewModel.dart';
 import 'package:example_map/views/screen/static_screen.dart';
 import 'package:flutter/material.dart';
@@ -28,14 +30,23 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     var checkAdminValue = widget.isAdmin;
     final List<Widget> widgetOptions = [
-      ChangeNotifierProvider(
-        create: (context) => TaskViewModal(),
+      MultiProvider(
+          providers: [
+            ChangeNotifierProvider(
+              create: (context) => TaskViewModal(),),
+            ChangeNotifierProvider(
+              create: (context) => PictureViewModal(),),
+          ],
         child: HomePageScreen(
           checkAdmin: checkAdminValue,
         ),
       ),
-      const StaticScreen(),
-      const NotificationScreen(),
+      // const StaticScreen(),
+      ChangeNotifierProvider(
+        create: (context) => PictureViewModal(),
+        child: const StaticScreen(),
+      ),
+      const SettingScreen(),
       // MyMap(),
     ];
     return Scaffold(
@@ -87,6 +98,7 @@ class HomePageScreen extends StatefulWidget {
 }
 
 class _HomePageScreenState extends State<HomePageScreen> {
+
   @override
   Widget build(BuildContext context) {
     bool checkRole = widget.checkAdmin;
@@ -106,128 +118,132 @@ class _HomePageScreenState extends State<HomePageScreen> {
                 appBar: AppBar(
                   backgroundColor: Colors.deepOrangeAccent,
                   title: checkRole ? Text("Admin") : Text("Người dùng"),
-                  actions: [
-                    checkRole
-                        ? Container(
-                            margin: EdgeInsets.only(right: 15),
-                            child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.white,
-                                ),
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => AddTaskScreen(
-                                          addProviderClass: listTask,
-                                        ),
-                                      ));
-                                },
-                                child: const Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      "Tạo task",
-                                      style: TextStyle(
-                                          color: Colors.deepOrangeAccent,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                )),
-                          )
-                        : Container(
-                            margin: EdgeInsets.only(right: 15),
-                            child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.white,
-                                ),
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              ChangeNotifierProvider(
-                                                  create: (context) => MapViewModal(),
-                                                  child: MapScreen(listTasks: snapshot.data!,)
-                                              )
-                                      )
-                                  );
-                                },
-                                child: const Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      "Xem map",
-                                      style: TextStyle(
-                                          color: Colors.deepOrangeAccent,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                )),
-                          ),
-                  ],
-                ),
-                body: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SafeArea(
-                      minimum: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              AutoSizeText(
-                                "Người thực hiện : Minh",
-                                style: TextStyle(
-                                    color: Colors.deepOrangeAccent,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold),
-                                minFontSize: 14,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
 
-                              // const Icon(FontAwesomeIcons.chevronDown,color:  Colors.deepOrangeAccent,size: 17,)
+                ),
+                body: Stack(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+
+                        const SafeArea(
+                          minimum: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  AutoSizeText(
+                                    "Người thực hiện : Minh",
+                                    style: TextStyle(
+                                        color: Colors.deepOrangeAccent,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                    minFontSize: 14,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+
+                                  // const Icon(FontAwesomeIcons.chevronDown,color:  Colors.deepOrangeAccent,size: 17,)
+                                ],
+                              ),
                             ],
                           ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      // flex: 1,
-                      child: Container(
-                          decoration: const BoxDecoration(
-                            color: Color.fromRGBO(255, 237, 224, 0.7),
+                        ),
+                        Expanded(
+                          // flex: 1,
+                          child: Container(
+                              decoration: const BoxDecoration(
+                                color: Color.fromRGBO(255, 237, 224, 0.7),
+                              ),
+                              // padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                              // child: taskList(),
+                              child: Consumer<PictureViewModal>(
+                                builder: (context,pictureViewModal,child){
+                                  return ListCard(
+                                    iconName: taskIcon,
+                                    detailTitle: detailTitle,
+                                    cardIcon: viewIcon,
+                                    listTask: snapshot.data!,
+                                    enableDialog: true,
+                                    dialogAction: () {
+                                      Navigator.of(context).pop();
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => ChangeNotifierProvider(
+                                                  create: (context) => MapViewModal(),
+                                                  child: MapScreen(listTasks: snapshot.data!,)
+                                              )));
+                                    },
+                                    cardButton: Container(
+                                      margin: EdgeInsets.fromLTRB(0, 0, 15, 0),
+
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.deepOrangeAccent,
+                                        ),
+                                        onPressed: () {
+                                          pictureViewModal.openBottomModal(context);
+                                        },
+                                        child: Text("Thêm ảnh"),
+                                      ),
+                                    ),
+                                    imageFile: pictureViewModal.listImgFile,
+                                  );
+                                },
+                              ),
                           ),
-                          // padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                          // child: taskList(),
-                          child: ListCard(
-                              iconName: taskIcon,
-                              detailTitle: detailTitle,
-                              cardIcon: viewIcon,
-                              listTask: snapshot.data!,
-                              enableDialog: true,
-                              dialogAction: () {
-                                Navigator.of(context).pop();
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ChangeNotifierProvider(
+                        ),
+                      ]
+                    ),
+                    checkRole ?
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: Container(
+                        margin: const EdgeInsets.all(10),
+                        child: FloatingActionButton(
+
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AddTaskScreen(
+                                    addProviderClass: listTask,
+                                  ),
+                                ));
+                          },
+                          backgroundColor: Colors.deepOrangeAccent,
+                          child: const Icon(Icons.add),
+                        ),
+                      )
+                    ):
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        child: FloatingActionButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ChangeNotifierProvider(
                                             create: (context) => MapViewModal(),
                                             child: MapScreen(listTasks: snapshot.data!,)
-                                        )));
-                              })),
+                                        )
+                                )
+                            );
+                          },
+                          backgroundColor: Colors.deepOrangeAccent,
+                          child: const Icon(Icons.map),
+                        ),
+                      ),
                     ),
                   ],
                 ),
               );
-
               // );
             } else {
               return const Center(

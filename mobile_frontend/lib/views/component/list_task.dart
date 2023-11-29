@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
 import '../../model/task_model.dart';
 
+// ignore: must_be_immutable
 class ListCard extends StatelessWidget {
   final List<String> detailTitle;
   final List<String>? iconName;
@@ -8,23 +10,27 @@ class ListCard extends StatelessWidget {
   final List<TaskObject> listTask;
   final Color? cardTitleColor;
   final double? cardTextSize;
-  final VoidCallback  dialogAction;
+  final VoidCallback dialogAction;
   final bool enableDialog;
+  final Widget? cardButton;
+  List<File?>? imageFile;
 
-  const ListCard(
-      {super.key,
-        required this.enableDialog,
-        required this.detailTitle,
-        required this.dialogAction,
-        required this.listTask,
-        this.iconName,
-        this.cardIcon,
-        this.cardTextSize,
-        this.cardTitleColor,
+  ListCard({
+    super.key,
+    required this.enableDialog,
+    required this.detailTitle,
+    required this.dialogAction,
+    required this.listTask,
+    this.iconName,
+    this.cardIcon,
+    this.cardTextSize,
+    this.cardTitleColor,
+    this.cardButton, this.imageFile,
 
-      });
+  });
 
-  Widget contentText(double? textSize, Color? textColor, int index,BuildContext context) {
+  Widget contentText(
+      double? textSize, Color? textColor, int index, BuildContext context) {
     List<String> textValue = [];
     var value = listTask[index];
     Map<String, String> taskValue = value.toJson();
@@ -38,45 +44,38 @@ class ListCard extends StatelessWidget {
     var returnValue = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        for(var value in temp)
+        for (var value in temp)
+          //       if(temp.indexOf(value) == temp.length-1){
+          // }
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                width: MediaQuery.of(context).size.width*0.3,
+                width: MediaQuery.of(context).size.width * 0.3,
                 child: Text('${detailTitle[temp.indexOf(value)]}',
                     style: TextStyle(
-                        color: textColor ?? Colors.black, fontSize: textSize ?? 15)),
+                        color: textColor ?? Colors.black,
+                        fontSize: textSize ?? 15)),
               ),
               Expanded(
                   child: SizedBox(
-                    width: MediaQuery.of(context).size.width*1,
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(': ${temp[temp.indexOf(value)]}',
-                          style: TextStyle(fontSize: textSize ?? 15, color: Colors.black)),
-                    ),
-                  )
-              )
+                width: MediaQuery.of(context).size.width * 1,
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(': ${temp[temp.indexOf(value)]}',
+                      style: TextStyle(
+                          fontSize: textSize ?? 15, color: Colors.black)),
+                ),
+              ))
             ],
-          ),
-          // RichText(
-          //   text: TextSpan(
-          //     children: [
-          //       TextSpan(text: '${detailTitle[temp.indexOf(value)]} : ',
-          //           style: TextStyle(
-          //               color: textColor ?? Colors.black, fontSize: textSize ?? 15)),
-          //       TextSpan(text: temp[temp.indexOf(value)],
-          //           style: TextStyle(fontSize: textSize ?? 15, color: Colors.black)),
-          //     ],
-          //   ),
-          // ),
+          )
       ],
     );
     return returnValue;
   }
 
-  Widget customIcon(String expectIcon, List<IconData> iconINeed, List<String> listIconName) {
+  Widget customIcon(
+      String expectIcon, List<IconData> iconINeed, List<String> listIconName) {
     for (var value in listIconName) {
       if (value == expectIcon) {
         return Icon(iconINeed[listIconName.indexOf(value)]);
@@ -84,10 +83,11 @@ class ListCard extends StatelessWidget {
     }
     return const Icon(Icons.add_box_outlined);
   }
+
   @override
   Widget build(BuildContext context) {
-    List<String> taskTitle =[];
-    for(var value in listTask) {
+    List<String> taskTitle = [];
+    for (var value in listTask) {
       taskTitle.add(value.taskTitle);
     }
 
@@ -106,35 +106,37 @@ class ListCard extends StatelessWidget {
                   if (enableDialog) {
                     showDialog(
                       context: context,
-                      builder: (BuildContext context) =>
-                          AlertDialog(
-                            title: Text(taskTitle[index]),
-                            content:const SingleChildScrollView(
-                              child: ListBody(
-                                children: <Widget>[
-                                  Text("Nhấn vào nút mở để biết thêm thông tin về task."),
-                                ],
-                              ),
-                            ),
-                            actions: <Widget>[
-                              TextButton(
-                                onPressed: dialogAction,
-                                child:  const Text("Mở"),
-                              ),
-                              TextButton(
-                                child: const Text('Đóng',style: TextStyle(color: Colors.red),),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              )
+                      builder: (BuildContext context) => AlertDialog(
+                        title: Text(taskTitle[index]),
+                        content: const SingleChildScrollView(
+                          child: ListBody(
+                            children: <Widget>[
+                              Text(
+                                  "Nhấn vào nút mở để biết thêm thông tin về task."),
                             ],
                           ),
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: dialogAction,
+                            child: const Text("Mở"),
+                          ),
+                          TextButton(
+                            child: const Text(
+                              'Đóng',
+                              style: TextStyle(color: Colors.red),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          )
+                        ],
+                      ),
                     );
                   }
                 },
                 child: Card(
-                  margin:const EdgeInsets.all(10),
-
+                    margin: const EdgeInsets.all(10),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -142,9 +144,12 @@ class ListCard extends StatelessWidget {
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            if(cardIcon!= null && iconName!=null) customIcon(listTask[index].taskStatus, cardIcon!, iconName!),
+                            if (cardIcon != null && iconName != null)
+                              customIcon(listTask[index].taskStatus, cardIcon!,
+                                  iconName!),
                             Text(listTask[index].taskStatus,
-                                style: TextStyle(color: Colors.deepOrangeAccent,
+                                style: TextStyle(
+                                    color: Colors.deepOrangeAccent,
                                     fontSize: cardTextSize ?? 15)),
                           ],
                         ),
@@ -156,32 +161,132 @@ class ListCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
-                              width: MediaQuery.of(context).size.width*0.3,
+                              width: MediaQuery.of(context).size.width * 0.3,
                               child: Text(listTask[index].taskCode,
-                                  style: TextStyle(color: cardTitleColor ??
-                                      Colors.deepOrangeAccent, fontSize: 15)),
+                                  style: TextStyle(
+                                      color: cardTitleColor ??
+                                          Colors.deepOrangeAccent,
+                                      fontSize: 15)),
                             ),
                             Expanded(
                                 child: SizedBox(
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(': ${listTask[index].taskTitle}',
-                                        style: TextStyle(fontSize: cardTextSize ?? 15,
-                                            color: Colors.black)),
-                                  ),
-                                )
-                            )
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(': ${listTask[index].taskTitle}',
+                                    style: TextStyle(
+                                        fontSize: cardTextSize ?? 15,
+                                        color: Colors.black)),
+                              ),
+                            ))
                           ],
                         ),
-                        contentText(15,Colors.deepOrangeAccent,index,context),
+                        contentText(
+                            15, Colors.deepOrangeAccent, index, context),
+                        cardButton != null ? Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            cardButton!,
+                          ],
+                        ) : Container(),
                         // ),
                       ],
+                    )),
+              ),
+              index>imageFile!.length-1 ? const SizedBox():  Container(
+                width: MediaQuery.of(context).size.width*1,
+                padding: const EdgeInsets.all(10),
+                height: 200,
+                child: Column(
+                  children: [
+                    Image.file(imageFile![index]!,height: 100,width: 200,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                            shadowColor: MaterialStateProperty.all<Color>(Colors.grey),
+
+                          ),
+                            onPressed: (){},
+                            child: const Text("Lưu ảnh",style: TextStyle(color: Colors.blue)),
+                        ),
+                        ElevatedButton(
+                          onPressed: (){},
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                            shadowColor: MaterialStateProperty.all<Color>(Colors.grey),
+
+                          ),
+                          child: const Text("Xóa ảnh",style: TextStyle(color: Colors.red),),
+                        ),
+                      ],
                     )
-                ),
+                  ],
+                ) ,
               ),
             ],
           );
-        }
-    );
+        });
   }
 }
+// Container(
+// margin: EdgeInsets.fromLTRB(0, 0, 15, 0),
+//
+// child: ElevatedButton(
+// style: ElevatedButton.styleFrom(
+// backgroundColor: Colors.deepOrangeAccent,
+// ),
+// onPressed: () {
+// showModalBottomSheet<void>(
+// context: context,
+// showDragHandle: true,
+// useSafeArea: true,
+// enableDrag: true,
+// builder: (BuildContext context) {
+// return Container(
+// height: 100,
+// child: Column(
+// mainAxisAlignment:
+// MainAxisAlignment.center,
+// crossAxisAlignment:
+// CrossAxisAlignment.start,
+// children: [
+// Row(
+// children: [
+// CircleAvatar(
+// backgroundColor:
+// Colors.greenAccent[100],
+// child: Icon(Icons.picture_in_picture_alt_outlined,color: Colors.greenAccent[800],),
+// ),
+// Container(
+// margin: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+// child: const Text("Gallery", style: TextStyle(fontSize:15,color:Colors.black),),
+// )
+// ],
+// ),
+// const Divider(),
+// Row(
+// children: [
+// CircleAvatar(
+// backgroundColor:
+// Colors.blue[100],
+// child: const Icon(
+// Icons.camera_alt_outlined),
+// ),
+// Container(
+// margin: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+// child: const Text("Camera", style: TextStyle(fontSize:15,color:Colors.black),),
+// )
+// ],
+// )
+//
+// ],
+// ),
+// );
+// },
+// );
+// },
+// child: Text("Thêm ảnh"),
+// ),
+// )

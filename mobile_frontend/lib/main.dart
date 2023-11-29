@@ -9,17 +9,15 @@ void main() {
   );
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      // theme: ThemeData(
+      //   primarySwatch: Colors.orange,
+      // ),
       debugShowCheckedModeBanner: false,
       //ChangeNotifierProvider có tác dụng tạo và truyền instance của lớp ChangeNotifier
       //đến widget con trường hợp này là MyLogin;

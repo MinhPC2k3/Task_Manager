@@ -30,22 +30,31 @@ class AddTaskScreenState extends State<AddTaskScreen>{
       appBar: AppBar(
         backgroundColor:  Colors.deepOrangeAccent,
         title: Text("Tạo task mới"),
-        actions: [
-          Container(
-            padding: EdgeInsets.only(right: 10),
-            child: ElevatedButton(
-              style: TextButton.styleFrom(
-                backgroundColor: Colors.amber, // Text Color
-                elevation: 0,
-              ),
-              child: Text('Lưu', style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.w400),),
-              onPressed: () {
-                  tempProvider.checkText(context);
+        // actions: [
+        //   Container(
+        //     padding: EdgeInsets.only(right: 10),
+        //     child: ElevatedButton(
+        //       style: TextButton.styleFrom(
+        //         backgroundColor: Colors.amber, // Text Color
+        //         elevation: 0,
+        //       ),
+        //       child: Text('Lưu', style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.w400),),
+        //       onPressed: () {
+        //         tempProvider.checkText(context);
+        //
+        //       },
+        //     ),
+        //   ),
+        // ],
+      ),
 
-                },
-            ),
-          ),
-        ],
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          tempProvider.checkText(context);
+        },
+        backgroundColor: Colors.deepOrangeAccent,
+        child: const Icon(Icons.done),
+
       ),
       body:  ListView.separated(
         key: _formKey,

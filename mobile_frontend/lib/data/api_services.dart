@@ -116,3 +116,25 @@ Future<String> postChangePwd (Map<String,String> newPwdData) async{
   return responseInfor;
 }
 
+Future<String> logOutUser () async{
+  String? jwtToken = await storage.read(key: 'jwt');
+  final user = jsonDecode(jwtToken!);
+  Map<String, String> headerPost = {};
+  headerPost.addEntries([
+    const MapEntry('Content-Type', 'application/json'),
+    MapEntry('Authorization', user["user_name"])
+  ]);
+  final response = await http.get(Uri.parse(logOutUserPath),headers: headerPost);
+  if (response.statusCode == 200) {
+    // Request successful, handle response
+    print('Response: ${response.body}');
+    Map<String, dynamic> user = jsonDecode(response.body);
+    await storage.write(key: 'jwt', value: jsonEncode(user));
+    return "Success";
+  } else {
+    // Request failed, handle error
+    print('Error: ${response.statusCode}');
+    return "Failed";
+  }
+}
+

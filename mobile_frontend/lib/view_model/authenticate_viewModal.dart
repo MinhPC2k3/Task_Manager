@@ -27,6 +27,20 @@ class AuthenticateAction extends ChangeNotifier{
       notifyListeners();
   }
 
+  Future<void> handleLogOut(BuildContext context) async{
+    String logOutStatus = await accountRepository.logOut();
+    print("logout status $logOutStatus");
+    if(logOutStatus == "Success"){
+      Navigator.pushReplacementNamed(context, "/logout");
+      notifyListeners();
+    }else {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Failed to logOut'))
+      );
+      notifyListeners();
+    }
+  }
+
   void passwordVisionable(){
     showPassword=!showPassword;
     notifyListeners();

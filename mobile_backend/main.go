@@ -11,7 +11,6 @@ import (
 
 
 func main() {
-
 	// mail.SendEmail()
 	storage.RedisInit()
 	storage.Init()

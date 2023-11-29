@@ -45,4 +45,14 @@ class AccountRepository{
     }
     return "Failed";
   }
+
+  Future<String> logOut() async{
+    dynamic response = await logOutUser();
+    print("respone logout $response");
+    if(response == "Success"){
+      print("setting new value");
+      return "Success";
+    }
+    return "Failed";
+  }
 }
