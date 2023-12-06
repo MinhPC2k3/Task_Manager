@@ -144,7 +144,6 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),
-
                                   // const Icon(FontAwesomeIcons.chevronDown,color:  Colors.deepOrangeAccent,size: 17,)
                                 ],
                               ),
@@ -167,6 +166,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                     cardIcon: viewIcon,
                                     listTask: snapshot.data!,
                                     enableDialog: true,
+                                    pictureViewModal: pictureViewModal,
                                     dialogAction: () {
                                       Navigator.of(context).pop();
                                       Navigator.push(
@@ -178,7 +178,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                               )));
                                     },
                                     cardButton: Container(
-                                      margin: EdgeInsets.fromLTRB(0, 0, 15, 0),
+                                      margin: const EdgeInsets.fromLTRB(0, 0, 15, 0),
 
                                       child: ElevatedButton(
                                         style: ElevatedButton.styleFrom(

@@ -1,6 +1,5 @@
 import 'package:example_map/view_model/picture_viewModal.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 class StaticScreen extends StatefulWidget{
@@ -11,6 +10,7 @@ class StaticScreen extends StatefulWidget{
 }
 
 class _StaticScreenState extends State<StaticScreen> {
+
   @override
   Widget build(BuildContext context){
     return Consumer<PictureViewModal>(
@@ -37,7 +37,7 @@ class _StaticScreenState extends State<StaticScreen> {
                       "Chụp ảnh mới"
                   ),
                 ),
-                pictureViewModal.imageFile == null ? const Text("emty picture") : Image.file(pictureViewModal.imageFile!, height: 200, width: 200,),
+                // pictureViewModal.imgFromApi == null ? const Text("emty picture") : SizedBox(height: 200,width: 200,child: pictureViewModal.imgFromApi!,),
               ],
             ),
           );

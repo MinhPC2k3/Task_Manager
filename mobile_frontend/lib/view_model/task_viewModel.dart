@@ -70,6 +70,6 @@ class TaskViewModal extends ChangeNotifier{
       Navigator.pop(context);
       notifyListeners();
     }
-
   }
+
 }

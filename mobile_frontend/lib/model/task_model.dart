@@ -16,6 +16,7 @@ class TaskObject {
   final int taskID;
   final DateTime expireTime;
   LatLng? destinationPosition;
+  String? imageUrl;
   TaskObject(
       {required this.taskStatus,
         required this.taskCode,
@@ -24,7 +25,7 @@ class TaskObject {
         required this.productValue,
         required this.shipCost,
         required this.taskID,
-        required this.expireTime,
+        required this.expireTime,this.imageUrl,
       this.destinationPosition});
   TaskObject copyTask(){
     TaskObject newTask =  TaskObject(taskStatus : taskStatus, taskCode : taskCode, taskTitle : taskTitle, destinationName : destinationName, productValue : productValue, shipCost : shipCost, taskID : taskID, expireTime : expireTime, destinationPosition : destinationPosition);
@@ -46,6 +47,16 @@ class TaskObject {
     final TaskDateTime = json['DeathLine'].toString();
     final taskLat = json['LatValue'];
     final taskLng = json['LngValue'];
+    // String imagePathUrl = "http://172.20.10.2:8080/${json['ImagePath']}";
+    // 10.42.0.178
+    String? imagePathUrl;
+    if(json['ImagePath'] !=null) {
+       // imagePathUrl = "http://10.42.0.178:8080${json['ImagePath']}";
+       imagePathUrl = "http://172.20.10.2:8080${json['ImagePath']}";
+    }else {
+      imagePathUrl = "http://172.20.10.2:8080";
+    }
+
     print("hello ${json['DeathLine']} ${json['DeathLine'].runtimeType}");
     return TaskObject(
         taskStatus : json['Status'] as String,
@@ -57,7 +68,7 @@ class TaskObject {
         shipCost : json['ShipCost'] as int,
         expireTime :DateTime.parse(json['DeathLine'].toString()),
         //json['DeathLine'] as DateTime
-
+        imageUrl : imagePathUrl!,
         destinationPosition : LatLng(taskLat,taskLng),
     );
   }

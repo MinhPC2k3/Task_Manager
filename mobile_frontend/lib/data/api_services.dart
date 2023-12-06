@@ -1,14 +1,19 @@
 import 'dart:convert';
+import 'dart:io';
+
 import 'package:example_map/data/api_urls.dart';
 import 'package:example_map/views/screen/authentication_screen.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import '../model/task_model.dart';
-import '../model/map_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
+
+import '../model/map_model.dart';
+import '../model/task_model.dart';
 import '../view_model/task_viewModel.dart';
 import '../views/screen/add_task_screen.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 // Create storage
 var storage = const FlutterSecureStorage();
@@ -103,7 +108,8 @@ Future<String> postAuthen(Map<String, dynamic> authenData) async {
     return "Failed";
   }
 }
-Future<String> postChangePwd (Map<String,String> newPwdData) async{
+
+Future<String> postChangePwd(Map<String, String> newPwdData) async {
   String? jwtToken = await storage.read(key: 'jwt');
   final user = jsonDecode(jwtToken!);
   Map<String, String> headerPost = {};
@@ -111,12 +117,13 @@ Future<String> postChangePwd (Map<String,String> newPwdData) async{
     const MapEntry('Content-Type', 'application/json'),
     MapEntry('Authorization', user["user_name"])
   ]);
-  final response = await http.post(Uri.parse(pwdChangePath),headers: headerPost,body: jsonEncode(newPwdData));
-  final responseInfor = response.body;
-  return responseInfor;
+  final response = await http.post(Uri.parse(pwdChangePath),
+      headers: headerPost, body: jsonEncode(newPwdData));
+  final responseInform = response.body;
+  return responseInform;
 }
 
-Future<String> logOutUser () async{
+Future<String> logOutUser() async {
   String? jwtToken = await storage.read(key: 'jwt');
   final user = jsonDecode(jwtToken!);
   Map<String, String> headerPost = {};
@@ -124,7 +131,8 @@ Future<String> logOutUser () async{
     const MapEntry('Content-Type', 'application/json'),
     MapEntry('Authorization', user["user_name"])
   ]);
-  final response = await http.get(Uri.parse(logOutUserPath),headers: headerPost);
+  final response =
+      await http.get(Uri.parse(logOutUserPath), headers: headerPost);
   if (response.statusCode == 200) {
     // Request successful, handle response
     print('Response: ${response.body}');
@@ -138,3 +146,26 @@ Future<String> logOutUser () async{
   }
 }
 
+Future<void> uploadImage(File imageFile, String productCode, String imagePath) async {
+  try {
+    var request = http.MultipartRequest(
+      'POST',
+      // Uri.parse('http://10.42.0.178:8080/post/upload'),
+      Uri.parse('http://172.20.10.2:8080/post/upload'),
+    );
+    request.fields['text'] = productCode;
+    var file = await http.MultipartFile.fromPath('file', imagePath,filename: '${productCode.replaceAll("#", "")}.png');
+
+    // Add the file to the request
+    request.files.add(file);
+    var response =await request.send();
+    if (response.statusCode == 200) {
+      print('Upload success!');
+    } else {
+      print('Upload failed with status ${response.statusCode}');
+    }
+
+  } catch (err) {
+    print("Err upload $err");
+  }
+}

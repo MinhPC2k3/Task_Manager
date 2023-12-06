@@ -2,12 +2,17 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 
+import '../data/api_services.dart';
+import '../data/api_urls.dart';
+
 class PictureViewModal extends ChangeNotifier {
 
   File? imageFile;
   final picker = ImagePicker();
   Image? imageDisplay;
   List<File> listImgFile =[];
+  List<String> imagePath = [];
+  // Image imgFromApi =Image.network(imagePath);
 
   Future<void> getImage(ImageSource img) async {
     print("doing");
@@ -17,7 +22,8 @@ class PictureViewModal extends ChangeNotifier {
       imageFile = File(pickedFile!.path);
       imageDisplay = Image.file(imageFile!);
       listImgFile.add(File(pickedFile.path));
-      print("lít image length ${listImgFile.length}");
+      imagePath.add(pickedFile.path);
+      print("list image length ${listImgFile.length}");
     }
   }
 
@@ -97,4 +103,17 @@ class PictureViewModal extends ChangeNotifier {
       },
     );
   }
+
+  void sendImageToApi (int index,String productCode , String imagePath) async{
+    await uploadImage(listImgFile[index],productCode,imagePath);
+  }
+
+  String standardizeImageName (String imageName) {
+    String temp = imageName.toLowerCase();
+    String result = temp.replaceAll(" ", "_");
+    return result;
+  }
+  // Future<void> getImageFromAPi() async{
+  //   imgFromApi = await Image.network(imagePath);
+  // }
 }

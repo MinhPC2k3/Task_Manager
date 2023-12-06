@@ -18,6 +18,7 @@ type Task struct {
 	ProductValue int    `json:"ProductValue"`
 	ShipCost     int    `json:"ShipCost"`
 	Deathline    string `json:"DeathLine"`
+	ProductImage string `json:"ImagePath"`
 	LatValue     float64`json:"LatValue"`
 	LngValue	 float64`json:"LngValue"`
 	gorm.Model

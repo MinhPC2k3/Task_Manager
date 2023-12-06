@@ -1,10 +1,18 @@
 package main
 
 import (
+	// "fmt"
+	// "io"
+	// "log"
+	// "net/http"
+	// "os"
+	// "mobile_backend/model"
 	"mobile_backend/service/auth"
+	"mobile_backend/service/image"
 	"mobile_backend/service/mail"
 	"mobile_backend/service/mobile"
 	"mobile_backend/storage"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -33,6 +41,8 @@ func main() {
 	r.POST("/post", auth.JWTMiddleware(),mobile.PostTask)
 	r.POST("/post/authenticate",auth.Authenticate)
 	r.GET("/get/logout",mobile.LogoutUser)
+	r.Static("/static","./static")
+	r.POST("/post/upload", image.PostImage)
 	r.Run() 
 
 }
