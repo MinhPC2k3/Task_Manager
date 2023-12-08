@@ -41,7 +41,7 @@ class ListCard extends StatelessWidget {
     Map<String, String> taskValue = value.toJson();
     List<String> temp = [];
     taskValue.forEach((key, value) {
-      if(key != "imageUrl"){
+      if (key != "imageUrl") {
         temp.add(value);
       }
     });
@@ -177,87 +177,149 @@ class ListCard extends StatelessWidget {
                             ),
                             Expanded(
                                 child: SizedBox(
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(': ${listTask[index].taskTitle}',
-                                        style: TextStyle(
-                                            fontSize: cardTextSize ?? 15,
-                                            color: Colors.black)),
-                                  ),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(': ${listTask[index].taskTitle}',
+                                    style: TextStyle(
+                                        fontSize: cardTextSize ?? 15,
+                                        color: Colors.black)),
+                              ),
                             ))
                           ],
                         ),
                         contentText(
                             15, Colors.deepOrangeAccent, index, context),
-                        cardButton != null
-                            ? Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  cardButton!,
-                                ],
-                              )
-                            : Container(),
+                       Center(
+                         child:  Container(
+                           margin: const EdgeInsets.fromLTRB(0, 0, 15, 0),
+
+                           child: ElevatedButton(
+                             style: ElevatedButton.styleFrom(
+                               backgroundColor: Colors.deepOrangeAccent,
+                             ),
+                             onPressed: () {
+                               // pictureViewModal!.mappingImage(listTask[index].taskCode);
+                               pictureViewModal!.openBottomModal(context,listTask[index].taskCode);
+                             },
+                             child: Text("Thêm ảnh"),
+                           ),
+                         ),
+                       )
                         // ),
                       ],
                     )),
               ),
               // listTask[index].imageUrl != "http://10.42.0.178:8080" ? Container(
-              listTask[index].imageUrl != "http://172.20.10.2:8080" ? Container(
-                margin:const EdgeInsets.all(10),
-                height: 200,
-                width: 200,
-                child: Image.network(listTask[index].imageUrl!),
-              ) : Container(),
-              index > imageFile!.length - 1
-                  ? const SizedBox()
-                  : Container(
-                      width: MediaQuery.of(context).size.width * 1,
-                      padding: const EdgeInsets.all(10),
+              listTask[index].imageUrl != "http://172.20.10.2:8080"
+                  ? Container(
+                      margin: const EdgeInsets.all(10),
                       height: 200,
-                      child: Column(
-                        children: [
-                          Image.file(
-                            imageFile![index]!,
-                            height: 100,
-                            width: 200,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              ElevatedButton(
-                                style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          Colors.white),
-                                  shadowColor: MaterialStateProperty.all<Color>(
-                                      Colors.grey),
-                                ),
-                                onPressed: () {
-                                  pictureViewModal!.sendImageToApi(index, listTask[index].taskCode,pictureViewModal!.imagePath[index]);
-                                  print("This is img path ${pictureViewModal!.imagePath[index]}");
-                                },
-                                child: const Text("Lưu ảnh",
-                                    style: TextStyle(color: Colors.blue)),
-                              ),
-                              ElevatedButton(
-                                onPressed: () {},
-                                style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          Colors.white),
-                                  shadowColor: MaterialStateProperty.all<Color>(
-                                      Colors.grey),
-                                ),
-                                child: const Text(
-                                  "Xóa ảnh",
-                                  style: TextStyle(color: Colors.red),
-                                ),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
+                      width: 200,
+                      child: Image.network(listTask[index].imageUrl!),
+                    )
+                  : Container(),
+              pictureViewModal!.mapImgAndCode.containsKey(listTask[index].taskCode)
+                  ? Container(
+                width: MediaQuery.of(context).size.width * 1,
+                padding: const EdgeInsets.all(10),
+                height: 200,
+                child: Column(
+                  children: [
+                    Image.file(
+                      // imageFile![index]!,
+                      pictureViewModal!.mapImgAndCode[listTask[index].taskCode]!,
+                      height: 100,
+                      width: 200,
                     ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor:
+                            MaterialStateProperty.all<Color>(
+                                Colors.white),
+                            shadowColor: MaterialStateProperty.all<Color>(
+                                Colors.grey),
+                          ),
+                          onPressed: () {
+
+                            pictureViewModal!.sendImageToApi(index, listTask[index].taskCode,pictureViewModal!.imagePath[index]);
+                            print("This is img path ${pictureViewModal!.imagePath[index]}");
+                          },
+                          child: const Text("Lưu ảnh",
+                              style: TextStyle(color: Colors.blue)),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {},
+                          style: ButtonStyle(
+                            backgroundColor:
+                            MaterialStateProperty.all<Color>(
+                                Colors.white),
+                            shadowColor: MaterialStateProperty.all<Color>(
+                                Colors.grey),
+                          ),
+                          child: const Text(
+                            "Xóa ảnh",
+                            style: TextStyle(color: Colors.red),
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ) :  const SizedBox(),
+              // index > imageFile!.length - 1
+              //     ? const SizedBox()
+              //     : Container(
+              //         width: MediaQuery.of(context).size.width * 1,
+              //         padding: const EdgeInsets.all(10),
+              //         height: 200,
+              //         child: Column(
+              //           children: [
+              //             Image.file(
+              //               imageFile![index]!,
+              //               height: 100,
+              //               width: 200,
+              //             ),
+              //             Row(
+              //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //               children: [
+              //                 ElevatedButton(
+              //                   style: ButtonStyle(
+              //                     backgroundColor:
+              //                         MaterialStateProperty.all<Color>(
+              //                             Colors.white),
+              //                     shadowColor: MaterialStateProperty.all<Color>(
+              //                         Colors.grey),
+              //                   ),
+              //                   onPressed: () {
+              //
+              //                     pictureViewModal!.sendImageToApi(index, listTask[index].taskCode,pictureViewModal!.imagePath[index]);
+              //                     print("This is img path ${pictureViewModal!.imagePath[index]}");
+              //                   },
+              //                   child: const Text("Lưu ảnh",
+              //                       style: TextStyle(color: Colors.blue)),
+              //                 ),
+              //                 ElevatedButton(
+              //                   onPressed: () {},
+              //                   style: ButtonStyle(
+              //                     backgroundColor:
+              //                         MaterialStateProperty.all<Color>(
+              //                             Colors.white),
+              //                     shadowColor: MaterialStateProperty.all<Color>(
+              //                         Colors.grey),
+              //                   ),
+              //                   child: const Text(
+              //                     "Xóa ảnh",
+              //                     style: TextStyle(color: Colors.red),
+              //                   ),
+              //                 ),
+              //               ],
+              //             )
+              //           ],
+              //         ),
+              //       ),
             ],
           );
         });

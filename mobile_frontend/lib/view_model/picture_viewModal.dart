@@ -12,9 +12,10 @@ class PictureViewModal extends ChangeNotifier {
   Image? imageDisplay;
   List<File> listImgFile =[];
   List<String> imagePath = [];
+  Map<String,File> mapImgAndCode ={};
   // Image imgFromApi =Image.network(imagePath);
 
-  Future<void> getImage(ImageSource img) async {
+  Future<void> getImage(ImageSource img, String taskCode) async {
     print("doing");
     final pickedFile = await picker.pickImage(source: img);
     XFile? xfilePick = pickedFile;
@@ -23,23 +24,24 @@ class PictureViewModal extends ChangeNotifier {
       imageDisplay = Image.file(imageFile!);
       listImgFile.add(File(pickedFile.path));
       imagePath.add(pickedFile.path);
+      mapImgAndCode.addEntries({MapEntry(taskCode,File(pickedFile.path))});
       print("list image length ${listImgFile.length}");
     }
   }
 
-  void showPicker(bool isTakePicture) async{
+  void showPicker(bool isTakePicture,String taskCode) async{
     if(isTakePicture){
-      await getImage(ImageSource.camera);
+      await getImage(ImageSource.camera,taskCode);
       print("file path $imageFile");
       notifyListeners();
     }else {
       print("file path $imageFile");
-      await getImage(ImageSource.gallery);
+      await getImage(ImageSource.gallery,taskCode);
       notifyListeners();
     }
   }
 
-  void openBottomModal(BuildContext context) {
+  void openBottomModal(BuildContext context,String taskCode) {
     showModalBottomSheet<void>(
       context: context,
       showDragHandle: true,
@@ -56,7 +58,7 @@ class PictureViewModal extends ChangeNotifier {
             children: [
               InkWell(
                 onTap: (){
-                  showPicker(false);
+                  showPicker(false,taskCode);
                   Navigator.pop(context);
                   notifyListeners();
                 },
@@ -77,7 +79,7 @@ class PictureViewModal extends ChangeNotifier {
               const Divider(),
               InkWell(
                 onTap: (){
-                  showPicker(true);
+                  showPicker(true,taskCode);
                   Navigator.pop(context);
                   notifyListeners();
                 },
@@ -106,6 +108,7 @@ class PictureViewModal extends ChangeNotifier {
 
   void sendImageToApi (int index,String productCode , String imagePath) async{
     await uploadImage(listImgFile[index],productCode,imagePath);
+    notifyListeners();
   }
 
   String standardizeImageName (String imageName) {

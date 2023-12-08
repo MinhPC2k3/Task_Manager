@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../view_model/authenticate_viewModal.dart';
 import '../../view_model/change_password_viewModal.dart';
 import '../component/changePwd_Dialog.dart';
+import 'home_screen.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
@@ -26,6 +27,7 @@ class _SettingScreenState extends State<SettingScreen> {
             ElevatedButton(
               onPressed: () => {
                 AuthenticateAction().handleLogOut(context),
+                currentPageIndex=0,
               },
               child: Text("Đăng xuất"),
             ),

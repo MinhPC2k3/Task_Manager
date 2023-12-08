@@ -177,19 +177,6 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                                   child: MapScreen(listTasks: snapshot.data!,)
                                               )));
                                     },
-                                    cardButton: Container(
-                                      margin: const EdgeInsets.fromLTRB(0, 0, 15, 0),
-
-                                      child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: Colors.deepOrangeAccent,
-                                        ),
-                                        onPressed: () {
-                                          pictureViewModal.openBottomModal(context);
-                                        },
-                                        child: Text("Thêm ảnh"),
-                                      ),
-                                    ),
                                     imageFile: pictureViewModal.listImgFile,
                                   );
                                 },
@@ -220,7 +207,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                       )
                     ):
                     Align(
-                      alignment: Alignment.centerRight,
+                      alignment: Alignment.bottomRight,
                       child: Container(
                         padding: EdgeInsets.all(10),
                         child: FloatingActionButton(

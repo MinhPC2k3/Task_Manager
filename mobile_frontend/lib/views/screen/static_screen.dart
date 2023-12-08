@@ -21,22 +21,22 @@ class _StaticScreenState extends State<StaticScreen> {
                 const Center(
                   child: Text("Feature comming soon"),
                 ),
-                ElevatedButton(
-                  onPressed: (){
-                    pictureViewModal.showPicker(false);
-                  },
-                  child: const Text(
-                      "Chọn ảnh từ máy"
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: (){
-                    pictureViewModal.showPicker(true);
-                  },
-                  child: const Text(
-                      "Chụp ảnh mới"
-                  ),
-                ),
+                // ElevatedButton(
+                //   onPressed: (){
+                //     pictureViewModal.showPicker(false);
+                //   },
+                //   child: const Text(
+                //       "Chọn ảnh từ máy"
+                //   ),
+                // ),
+                // ElevatedButton(
+                //   onPressed: (){
+                //     pictureViewModal.showPicker(true);
+                //   },
+                //   child: const Text(
+                //       "Chụp ảnh mới"
+                //   ),
+                // ),
                 // pictureViewModal.imgFromApi == null ? const Text("emty picture") : SizedBox(height: 200,width: 200,child: pictureViewModal.imgFromApi!,),
               ],
             ),
