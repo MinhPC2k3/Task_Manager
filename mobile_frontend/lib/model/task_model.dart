@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 
 import '../data/api_services.dart';
+import '../data/api_urls.dart';
 
 
 class TaskObject {
@@ -52,9 +53,9 @@ class TaskObject {
     String? imagePathUrl;
     if(json['ImagePath'] !=null) {
        // imagePathUrl = "http://10.42.0.178:8080${json['ImagePath']}";
-       imagePathUrl = "http://172.20.10.2:8080${json['ImagePath']}";
+       imagePathUrl = hostAddress+json['ImagePath'];
     }else {
-      imagePathUrl = "http://172.20.10.2:8080";
+      imagePathUrl = hostAddress;
     }
 
     print("hello ${json['DeathLine']} ${json['DeathLine'].runtimeType}");
@@ -68,7 +69,7 @@ class TaskObject {
         shipCost : json['ShipCost'] as int,
         expireTime :DateTime.parse(json['DeathLine'].toString()),
         //json['DeathLine'] as DateTime
-        imageUrl : imagePathUrl!,
+        imageUrl : imagePathUrl,
         destinationPosition : LatLng(taskLat,taskLng),
     );
   }

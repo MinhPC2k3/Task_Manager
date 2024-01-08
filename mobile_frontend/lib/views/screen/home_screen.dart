@@ -102,10 +102,10 @@ class _HomePageScreenState extends State<HomePageScreen> {
   @override
   Widget build(BuildContext context) {
     bool checkRole = widget.checkAdmin;
-    return Consumer<TaskViewModal>(builder: (context, listTask, child) {
+    return Consumer<TaskViewModal>(builder: (context, taskViewModal, child) {
       print("From home");
       return FutureBuilder<List<TaskObject>>(
-          future: listTask.getListTask(),
+          future: taskViewModal.getListTask(),
           builder: (context, snapshot) {
             print("from home future");
             if (snapshot.hasError) {
@@ -167,6 +167,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                     listTask: snapshot.data!,
                                     enableDialog: true,
                                     pictureViewModal: pictureViewModal,
+                                    taskViewModal: taskViewModal,
                                     dialogAction: () {
                                       Navigator.of(context).pop();
                                       Navigator.push(
@@ -177,7 +178,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                                   child: MapScreen(listTasks: snapshot.data!,)
                                               )));
                                     },
-                                    imageFile: pictureViewModal.listImgFile,
+                                    imageFile: pictureViewModal.mapIndexToFile,
                                   );
                                 },
                               ),
@@ -197,7 +198,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => AddTaskScreen(
-                                    addProviderClass: listTask,
+                                    addProviderClass: taskViewModal,
                                   ),
                                 ));
                           },

@@ -4,6 +4,8 @@ import '../data/api_services.dart';
 import '../model/task_model.dart';
 import '../views/screen/add_task_screen.dart';
 import '../data/fixed_data_display.dart';
+import 'dart:io';
+
 
 var emptyText = '';
 
@@ -17,6 +19,12 @@ class TaskViewModal extends ChangeNotifier{
 
   Future<List<TaskObject>> getListTask () async{
     listTaskObject = await taskRepository.getListTask();
+    return listTaskObject;
+  }
+
+  Future<List<TaskObject>> getListTaskRebuild () async{
+    listTaskObject = await taskRepository.getListTask();
+    notifyListeners();
     return listTaskObject;
   }
 
@@ -71,5 +79,7 @@ class TaskViewModal extends ChangeNotifier{
       notifyListeners();
     }
   }
+
+
 
 }

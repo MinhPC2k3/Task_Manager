@@ -43,6 +43,7 @@ func main() {
 	r.GET("/get/logout",mobile.LogoutUser)
 	r.Static("/static","./static")
 	r.POST("/post/upload", image.PostImage)
+	r.POST("/post/delete_image",image.PostDeleteImage)
 	r.Run() 
 
 }

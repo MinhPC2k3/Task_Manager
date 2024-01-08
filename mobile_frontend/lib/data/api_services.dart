@@ -151,7 +151,7 @@ Future<void> uploadImage(File imageFile, String productCode, String imagePath) a
     var request = http.MultipartRequest(
       'POST',
       // Uri.parse('http://10.42.0.178:8080/post/upload'),
-      Uri.parse('http://172.20.10.2:8080/post/upload'),
+      Uri.parse('$hostAddress/post/upload'),
     );
     request.fields['text'] = productCode;
     var file = await http.MultipartFile.fromPath('file', imagePath,filename: '${productCode.replaceAll("#", "")}.png');
